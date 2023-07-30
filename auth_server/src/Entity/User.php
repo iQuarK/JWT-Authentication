@@ -28,6 +28,15 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $address_number = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $postcode = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +86,42 @@ class User
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getAddressNumber(): ?string
+    {
+        return $this->address_number;
+    }
+
+    public function setAddressNumber(string $address_number): static
+    {
+        $this->address_number = $address_number;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPostcode(): ?string
+    {
+        return $this->postcode;
+    }
+
+    public function setPostcode(string $postcode): static
+    {
+        $this->postcode = $postcode;
 
         return $this;
     }
