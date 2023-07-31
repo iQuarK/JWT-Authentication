@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class UserController extends AbstractController
 {
@@ -30,18 +31,27 @@ class UserController extends AbstractController
         $user->setAddress($request->request->get('address'));
         $user->setCity($request->request->get('city'));
         $user->setPostcode($request->request->get('postcode'));
-        $user->setName($request->request->get('password'));
+        $user->setPassword($request->request->get('password'));
 
         $entityManager->persist($user);
+        try {
         $entityManager->flush();
 
         return $this->json([
+                'payload' => [
             'name' => $request->request->get('name'),
             'email' => $request->request->get('email'),
             'address_number' => $request->request->get('address_number'),
             'address' => $request->request->get('address'),
             'city' => $request->request->get('city'),
             'postcode' => $request->request->get('postcode')
+                ]
         ]);
+        } catch (UniqueConstraintViolationException $e) {
+            $email = $request->request->get('email');
+            return $this->json([
+                'error' => "User with email $email already exists."
+            ], 409);
+        }
     }
 }
