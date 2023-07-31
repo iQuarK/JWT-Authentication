@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Inter";
+  src:
+    local("Inter"),
+    url("./fonts/inter.ttf");
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: white;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+.subtext {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #475467;
+}
+a {
+  color: #CC5200;
+}
+button {
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+button.primary {
+  background-color: #CC5200;
+  color: white;
+}
+button.secondary {
+  background-color: white;
+  color: black;
+}
