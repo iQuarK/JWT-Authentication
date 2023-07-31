@@ -9,7 +9,7 @@ class UserControllerTest extends WebTestCase
     public function testRegister(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('POST', '/user',
+        $crawler = $client->request('POST', '/api/user',
             [
                 'name'=>'Luis Sanchez',
                 'email' => 'luis.sanchez@email.com',
@@ -38,7 +38,7 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         // create login first
-        $crawler = $client->request('GET', '/user');
+        $crawler = $client->request('GET', '/api/user');
         $response = $client->getResponse();
         $this->assertResponseIsSuccessful();
         $data = json_decode($response->getContent(), true);

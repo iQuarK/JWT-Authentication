@@ -10,7 +10,7 @@ class SessionControllerTest extends WebTestCase
     public function testLogin(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('POST', '/login', [
+        $crawler = $client->request('POST', '/api/login', [
             'email' => 'luis.sanchez@email.com',
             'password' => 'a_text-plain_password'
         ]);
