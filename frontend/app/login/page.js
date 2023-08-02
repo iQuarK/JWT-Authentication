@@ -1,10 +1,15 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "../page.module.scss";
+import { login } from "../../lib/request";
 
 export default function Login() {
   const router = useRouter();
+  const [fetching, setFetching] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <>
       <div className={`${styles.centered} ${styles.marginTop100}`}>
@@ -16,25 +21,33 @@ export default function Login() {
           <form
             className={`${styles.form} ${styles.column} ${styles.allWidth}`}
           >
-            <label for="email">Email</label>
+            <label htmlFor="email">Email</label>
             <input
               id="email"
               name="email"
               placeholder="Enter your email"
               type="text"
+              onChange={(data) => setEmail(data.target.value)}
             />
-            <label for="password">Password</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
               name="password"
               placeholder="Enter your password"
+              onChange={(data) => setPassword(data.target.value)}
             />
             <input
               type="submit"
               className={`${styles.button} ${styles.primary}`}
               value="Sign in"
-              onClick={() => router.push("/user")}
+              onClick={async () => {
+                alert(email);
+                console.log("sending", email, password);
+                setFetching(true);
+                await login(email, password);
+                setFetching(false);
+              }}
             />
           </form>
           <small className={styles.smallerText}>

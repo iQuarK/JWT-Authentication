@@ -3,12 +3,12 @@ import axios from "axios";
 const BASE_URL = "https://localhost:8000";
 
 export const login = async (email, password) => {
-  const response = await axios.get(
+  const response = await axios.post(
     `${BASE_URL}/api/login_check`,
     { email, password },
     {
       headers: {
-        "Content-Type": "application/json",
+        "content-type": "application/json",
       },
     }
   );

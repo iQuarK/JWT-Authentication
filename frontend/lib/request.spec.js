@@ -4,7 +4,7 @@ import axios from "axios";
 describe("Login and register", () => {
   describe("login", () => {
     jest.mock("axios", async () => {
-      get: (url, data) =>
+      post: (url, data) =>
         new Promise((resolve) => ({ data: "this is a token" }));
     });
 
