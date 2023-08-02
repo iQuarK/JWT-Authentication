@@ -23,10 +23,6 @@ class AccountControllerTest extends WebTestCase
             json_encode([
                 'name'=>'Luis Sanchez',
                 'email' => self::$email,
-                'address_number' => '17',
-                'address' => 'Street Fighter',
-                'city' => 'London',
-                'postcode' => 'SE16',
                 'password' => 'a_text-plain_password'
             ])
         );
@@ -36,11 +32,7 @@ class AccountControllerTest extends WebTestCase
         $this->assertArrayHasKey('payload', $data);
         $this->assertEquals($data['payload'], [
             'name'=>'Luis Sanchez',
-            'email' => self::$email,
-            'address_number' => '17',
-            'address' => 'Street Fighter',
-            'city' => 'London',
-            'postcode' => 'SE16'
+            'email' => self::$email
         ]);
     }
 
@@ -51,13 +43,36 @@ class AccountControllerTest extends WebTestCase
             json_encode([
                 'name'=>'Luis Sanchez',
                 'email' => self::$email,
-                'address_number' => '17',
-                'address' => 'Street Fighter',
-                'city' => 'London',
-                'postcode' => 'SE16',
                 'password' => 'a_text-plain_password'
             ])
         );
         $this->assertResponseStatusCodeSame(409);
+    }
+
+    public function testUpdate(): void
+    {
+        $client = static::createClient([], ['Content-Type' => 'application/json']);
+        $client->request('POST', '/api/account', [],[],[],
+            json_encode([
+                'name'=>'Luis Sanchez',
+                'email' => self::$email,
+                'address_number' => '109',
+                'address' => 'Sesame Street',
+                'city' => 'London',
+                'postcode' => 'CW10'
+            ])
+        );
+        $response = $client->getResponse();
+        $this->assertResponseIsSuccessful();
+        $data = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('payload', $data);
+        $this->assertEquals($data['payload'], [
+            'name'=>'Luis Sanchez',
+            'email' => self::$email,
+            'address_number' => '109',
+            'address' => 'Sesame Street',
+            'city' => 'London',
+            'postcode' => 'CW10'
+        ]);
     }
 }

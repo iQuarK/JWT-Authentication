@@ -20,16 +20,38 @@ class AccountController extends AbstractController
         $account = new Account();
         $account->setName($data['name']);
         $account->setEmail($data['email']);
-        $account->setAddressNumber($data['address_number']);
-        $account->setAddress($data['address']);
-        $account->setCity($data['city']);
-        $account->setPostcode($data['postcode']);
         $account->setRoles(['USER_ACCOUNT']);
 
         $hashedPassword = $passwordHasher->hashPassword($account, $data['password']);
         $account->setPassword($hashedPassword);
 
         $entityManager->persist($account);
+        try {
+            $flush = $entityManager->flush();
+            return $this->json([
+                'payload' => [
+                    'name' => $data['name'],
+                    'email' => $data['email']
+                ]
+            ]);
+        } catch (UniqueConstraintViolationException $e) {
+            $email = $data['email'];
+            return $this->json([
+                'error' => "Account with email $email already exists."
+            ], 409);
+        }
+    }
+    #[Route('/api/account', name: 'account_update', methods: ["PUT"])]
+    public function update(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $account = $entityManager->getRepository(Account::class)
+            ->findBy(array('email' => $email));
+        $account->setName($data['name']);
+        $account->setAddressNumber($data['address_number']);
+        $account->setAddress($data['address']);
+        $account->setCity($data['city']);
+        $account->setPostcode($data['postcode']);
+
         try {
             $flush = $entityManager->flush();
             return $this->json([
@@ -42,11 +64,11 @@ class AccountController extends AbstractController
                     'postcode' => $data['postcode']
                 ]
             ]);
-        } catch (UniqueConstraintViolationException $e) {
+        } catch (Exception $e) {
             $email = $data['email'];
             return $this->json([
-                'error' => "Account with email $email already exists."
-            ], 409);
+                'error' => "Account with email $email could not be updated."
+            ], 402);
         }
     }
 }
