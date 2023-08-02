@@ -41,12 +41,13 @@ export default function Login() {
               type="submit"
               className={`${styles.button} ${styles.primary}`}
               value="Sign in"
+              disabled={fetching}
               onClick={async () => {
-                alert(email);
-                console.log("sending", email, password);
                 setFetching(true);
                 await login(email, password);
                 setFetching(false);
+                // temporal navigation
+                router.push("/user");
               }}
             />
           </form>
