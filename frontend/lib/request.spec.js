@@ -45,8 +45,11 @@ describe("Login and register", () => {
     it("should register the user", () => {
       const email = "john@doe.com";
       const password = "johndoe";
+      const name = "John Doe";
 
-      register(email, password).then((data) => expect(data).toEqual(payload));
+      register(name, email, password).then((data) =>
+        expect(data).toEqual(payload)
+      );
     });
   });
 });

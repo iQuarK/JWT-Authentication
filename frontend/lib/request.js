@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const BASE_URL = "https://localhost:8000";
+
 export const login = async (email, password) => {
   const response = await axios.get(
-    "http://localhost:8000/api/login_check",
+    `${BASE_URL}/api/login_check`,
     { email, password },
     {
       headers: {
@@ -13,4 +15,15 @@ export const login = async (email, password) => {
   return response.data;
 };
 
-export const register = (name, email, password) => {};
+export const register = async (name, email, password) => {
+  const response = await axios.post(
+    `${BASE_URL}/api/register`,
+    { email, password, name },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data;
+};
