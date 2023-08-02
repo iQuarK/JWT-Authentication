@@ -27,16 +27,16 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 25, nullable: true)]
     private ?string $address_number = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable:true)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $city = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10, nullable:true)]
     private ?string $postcode = null;
 
     #[ORM\Column(length: 50)]
