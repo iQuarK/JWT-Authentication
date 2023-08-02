@@ -26,10 +26,16 @@ describe("Login and register", () => {
       payload: {
         name: "John Doe",
         email: "john@doe.com",
+        password: "password"
       },
     };
     jest.mock("axios", async () => {
-      post: (url, data) => new Promise((resolve) => payload);
+      post: (url, data) => new Promise((resolve) => ({
+        payload: {
+            name: "John Doe",
+            email: "john@doe.com",
+        }
+      });
     });
 
     it("should register the user", () => {
